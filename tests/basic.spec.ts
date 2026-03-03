@@ -27,7 +27,7 @@ test.describe('Basic Element Handling and Assertions', () => {
         await expect(page).toHaveURL('https://testcms.reco-claims.ca')
         const url = page.url()
         console.log("url===>" + url);
-        await expect(url).toContain('https://testcms.reco-claims.ca')
+        await expect(url).toContain('www://testcms.reco-claims.ca')
 
         await page.locator('thead').getByText('Claim #').hover()
 
