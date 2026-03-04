@@ -63,7 +63,7 @@ test.describe('Interactive Playwright Sandbox Basic', () => {
     test('Text and Attribute Extraction', async ({ page }) => {
         await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/sandbox-basic')
 
-        // extract only visible text in UI
+        //extract only visible text in UI
         const innerTextvalue = await page.getByTestId('extract-textcontent-target').innerText()
 
         console.log("innerTextvalue==>" + innerTextvalue);
@@ -77,14 +77,14 @@ test.describe('Interactive Playwright Sandbox Basic', () => {
 
         const text = await page.getByTestId('extract-inputvalue-target').textContent()
 
-        console.log("inner===>"+ inner);
-        console.log("text===>"+ text);
+        console.log("inner===>" + inner);
+        console.log("text===>" + text);
 
         const inputVal = await page.getByTestId('extract-inputvalue-target').inputValue()
-        console.log("inputVal==>"+ inputVal);
+        console.log("inputVal==>" + inputVal);
 
         const attrValue = await page.getByTestId('extract-attribute-target').getAttribute('class')
-        console.log("attrValue===>"+ attrValue);
+        console.log("attrValue===>" + attrValue);
 
         const allInnerText = await page.getByTestId('extract-list-item').allInnerTexts()
 
@@ -92,7 +92,66 @@ test.describe('Interactive Playwright Sandbox Basic', () => {
 
         console.log("allInnerText===>" + allInnerText);
         console.log("allTextContent===>" + allTextContent);
+
+
+        const htmlElement = await page.getByTestId('extract-list').innerHTML()
+
+        console.log("htmlElement==>" + htmlElement);
+
+
+
+    });
+
+
+
+    test('element state checks - checked', async ({ page }) => {
+
+        await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/sandbox-basic')
+        // conditional handling
+
+        // isChecked(), isDisabled(), isVisible(), isHidden, isEditable()
+
+        // const stateCheck = await page.getByTestId('remember-checkbox').isChecked();
+
+        // console.log('stateCheck==>'+ stateCheck);
+
+        // if(stateCheck === false) {
+        // await page.getByTestId('remember-checkbox').check()
+        // }
+
+
+        // const stateCheckAfterClicking = await page.getByTestId('remember-checkbox').isChecked();
+
+        // console.log('stateCheck==>'+ stateCheckAfterClicking);
+
+
     })
+
+
+
+    test('verify the dropdown is disabled', async({page})=> {
+    test.setTimeout(180000)
+        await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/sandbox-advanced')
+
+        const disabledCheck = await page.getByTestId('dynamic-option-select').isDisabled();
+
+        console.log("disabledCheck===>"+ disabledCheck);
+
+        const isVisible = await page.getByTestId('hidden-dropdown-select').isVisible()
+        console.log("isVisible===>"+ isVisible);
+
+        if(isVisible === false) {
+            await page.getByTestId('hidden-dropdown-toggle-btn').click()
+        }
+        const isVisibleCheck = await page.getByTestId('hidden-dropdown-select').isVisible()
+        console.log("isVisibleCheck===>"+ isVisibleCheck);
+        
+        await page.getByTestId('hidden-dropdown-select').selectOption('Hidden - Advanced')
+
+    })
+
+
+    
 
 
 
