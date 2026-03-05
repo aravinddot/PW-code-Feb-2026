@@ -111,18 +111,18 @@ test.describe('Interactive Playwright Sandbox Basic', () => {
 
         // isChecked(), isDisabled(), isVisible(), isHidden, isEditable()
 
-        // const stateCheck = await page.getByTestId('remember-checkbox').isChecked();
+        const stateCheck = await page.getByTestId('remember-checkbox').isChecked();
 
-        // console.log('stateCheck==>'+ stateCheck);
+        console.log('stateCheck==>'+ stateCheck);
 
-        // if(stateCheck === false) {
-        // await page.getByTestId('remember-checkbox').check()
-        // }
+        if(stateCheck === false) {
+        await page.getByTestId('remember-checkbox').check()
+        }
 
 
-        // const stateCheckAfterClicking = await page.getByTestId('remember-checkbox').isChecked();
+        const stateCheckAfterClicking = await page.getByTestId('remember-checkbox').isChecked();
 
-        // console.log('stateCheck==>'+ stateCheckAfterClicking);
+        console.log('stateCheck==>'+ stateCheckAfterClicking);
 
 
     })
@@ -151,7 +151,7 @@ test.describe('Interactive Playwright Sandbox Basic', () => {
     })
 
 
-    
+
 
 
 
