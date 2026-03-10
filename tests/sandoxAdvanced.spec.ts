@@ -165,7 +165,7 @@ test.describe('Interactive Playwright Sandbox Advanced', () => {
 
 
 
-    test('Handling Iframe', async({page})=> {
+    test('Handling Iframe', async ({ page }) => {
 
         await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/sandbox-advanced')
 
@@ -181,7 +181,7 @@ test.describe('Interactive Playwright Sandbox Advanced', () => {
 
 
 
-    test('Handling shadow DOM', async({page})=> {
+    test('Handling shadow DOM', async ({ page }) => {
 
         await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/sandbox-advanced')
 
@@ -199,21 +199,21 @@ test.describe('Interactive Playwright Sandbox Advanced', () => {
 
 
 
-    test('Practice and Interview Dates', async({page})=> {
+    test('Practice and Interview Dates', async ({ page }) => {
 
         await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/sandbox-advanced')
 
-        // await page.getByTestId('practice-date-picker').type('01-11-1995')
+        await page.getByTestId('practice-date-picker').type('01-11-1995')
 
-        // await expect(page.getByText('Practice Date Selected: 1995-11-01')).toBeVisible()
+        await expect(page.getByText('Practice Date Selected: 1995-11-01')).toBeVisible()
 
-        //   await page.getByTestId('practice-date-picker').fill('1995-11-01')
+        await page.getByTestId('practice-date-picker').fill('1995-11-01')
 
-        // await expect(page.getByText('Practice Date Selected: 1995-11-01')).toBeVisible()
+        await expect(page.getByText('Practice Date Selected: 1995-11-01')).toBeVisible()
 
         const datePicker = await page.getByTestId('interview-date-picker')
 
-        await datePicker.evaluate((dom, val)=> {
+        await datePicker.evaluate((dom, val) => {
 
             const html = dom as HTMLInputElement
             html.value = val as string
@@ -230,24 +230,120 @@ test.describe('Interactive Playwright Sandbox Advanced', () => {
 
 
 
-    test('wait commands', async({page})=> {
-//https://playwright-mastery-academy-app.vercel.app/practice/popup?source=waitfornavigation
+    test('wait commands', async ({ page }) => {
 
         await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/sandbox-advanced')
 
+        //waitForUrl
         await page.getByTestId('wait-navigation-link').click()
-
         await page.waitForURL('https://playwright-mastery-academy-app.vercel.app/practice/popup?source=waitfornavigation')
+        await expect(page.getByText('Popup Opened Successfully')).toBeVisible({timeout: 50000})
 
-        await expect(page.getByText('Popup Opened Successfully')).toBeVisible()
-
+        //waitForResponse
         await page.getByTestId('wait-response-btn').click()
         await page.waitForResponse('https://playwright-mastery-academy-app.vercel.app/api/practice/waits-status')
         await expect(page.getByText('Trigger API Response Completed')).toBeVisible()
 
+        //waitFor
+        await page.getByTestId('wait-response-btn').click()
+        await page.getByText('Trigger API Response Completed').waitFor({state: 'visible'})
+        await expect(page.getByText('Trigger API Response Completed')).toBeVisible()
+
+        // hidden - locator hidden in DOM should not be visible
+        // attached - locator exists in DOM
+        // detached - locator should not exists in DOM and should not be visible
+
+        //waitForSelector
+        await page.getByTestId('wait-response-btn').click()
+        await page.waitForSelector("//*[contains(text(),'Trigger API Response Completed')]")
+        await expect(page.getByText('Trigger API Response Completed')).toBeVisible()
+
+
+
+        //load - DOM ready, images loaded, speed - medium
+        await page.getByTestId('wait-loadstate-practice-load-btn').click();
+        await page.waitForLoadState('load')
+        await expect(page.getByText('Test load State: Completed')).toBeVisible()
+
+        //DomContentLoaded - DOM ready, speed - fastest
+        await page.getByTestId('wait-loadstate-practice-dom-btn').click();
+        await page.waitForLoadState('domcontentloaded')
+        await expect(page.getByText('Test DOMContentLoaded State: Completed')).toBeVisible()
+
+        //networkIdle - DOM ready, images loaded, API calls finished, speed - slow
+        await page.getByTestId('wait-loadstate-practice-networkidle-btn').click();
+        await page.waitForLoadState('networkidle')
+        await expect(page.getByText('Test Network Idle State: Completed')).toBeVisible()
 
 
     })
+
+
+    test('mouse actions', async ({ page }) => {
+
+        await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/sandbox-advanced')
+
+        await page.getByTestId('mouse-downup-target').hover()
+
+        await page.mouse.down()
+
+        await expect(page.getByText('Mouse down detected.')).toBeVisible()
+
+        await page.mouse.up()
+
+        await expect(page.getByText('Mouse down + up detected.')).toBeVisible()
+
+
+         await page.getByText('Mouse Actions').scrollIntoViewIfNeeded()
+         await page.waitForTimeout(2000)
+
+
+        await page.getByTestId('mouse-rightclick-target').click({button: 'right'})
+        await expect(page.getByText('Right click detected on target.')).toBeVisible()
+
+        await page.getByTestId('mouse-wheel-target').hover()
+        await page.mouse.wheel(0, 300)
+        await expect(page.getByText('Mouse wheel scrolled down.')).toBeVisible()
+
+    })
+
+
+
+    test('force actions', async({page})=> {
+
+        // actions - click, dblclick, hover, check, uncheck, dragTo
+
+        // Attached to the DOM
+        // Visible
+        // Stable 
+        // enable
+        // not covered by another element
+        // expect(page.getByText('mouse actions')).toBeVisible()
+        // await page.getByText('mouse actions').click()
+
+        // avoid
+
+        // UI bugs
+        // clicking wrong element unintentionally
+
+
+    })
+
+
+
+    test('element screenshot and page screenhot', async({page})=> {
+
+        await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/sandbox-advanced')
+
+        await page.getByTestId('wait-response-btn').screenshot({path: 'screenshots/element.png'})
+
+        await page.screenshot({path: 'screenshots/page.png', fullPage: true})
+
+        
+
+    })
+
+
 
 
 
