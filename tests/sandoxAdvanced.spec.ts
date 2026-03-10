@@ -237,7 +237,7 @@ test.describe('Interactive Playwright Sandbox Advanced', () => {
         //waitForUrl
         await page.getByTestId('wait-navigation-link').click()
         await page.waitForURL('https://playwright-mastery-academy-app.vercel.app/practice/popup?source=waitfornavigation')
-        await expect(page.getByText('Popup Opened Successfully')).toBeVisible({timeout: 50000})
+        await expect(page.getByText('Popup Opened Successfully')).toBeVisible({ timeout: 50000 })
 
         //waitForResponse
         await page.getByTestId('wait-response-btn').click()
@@ -246,7 +246,7 @@ test.describe('Interactive Playwright Sandbox Advanced', () => {
 
         //waitFor
         await page.getByTestId('wait-response-btn').click()
-        await page.getByText('Trigger API Response Completed').waitFor({state: 'visible'})
+        await page.getByText('Trigger API Response Completed').waitFor({ state: 'visible' })
         await expect(page.getByText('Trigger API Response Completed')).toBeVisible()
 
         // hidden - locator hidden in DOM should not be visible
@@ -291,14 +291,14 @@ test.describe('Interactive Playwright Sandbox Advanced', () => {
 
         await page.mouse.up()
 
-        await expect(page.getByText('Mouse down + up detected.')).toBeVisible()
+        await expect(page.getByText('Mouse down + up detected.')).toBeVisible({ timeout: 30000 })
 
 
-         await page.getByText('Mouse Actions').scrollIntoViewIfNeeded()
-         await page.waitForTimeout(2000)
+        await page.getByText('Mouse Actions').scrollIntoViewIfNeeded()
+        await page.waitForTimeout(2000)
 
 
-        await page.getByTestId('mouse-rightclick-target').click({button: 'right'})
+        await page.getByTestId('mouse-rightclick-target').click({ button: 'right' })
         await expect(page.getByText('Right click detected on target.')).toBeVisible()
 
         await page.getByTestId('mouse-wheel-target').hover()
@@ -309,7 +309,7 @@ test.describe('Interactive Playwright Sandbox Advanced', () => {
 
 
 
-    test('force actions', async({page})=> {
+    test('force actions', async ({ page }) => {
 
         // actions - click, dblclick, hover, check, uncheck, dragTo
 
@@ -331,15 +331,129 @@ test.describe('Interactive Playwright Sandbox Advanced', () => {
 
 
 
-    test('element screenshot and page screenhot', async({page})=> {
+    test('element screenshot and page screenhot', async ({ page }) => {
 
         await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/sandbox-advanced')
 
-        await page.getByTestId('wait-response-btn').screenshot({path: 'screenshots/element.png'})
+        await page.getByTestId('wait-response-btn').screenshot({ path: 'screenshots/element.png' })
 
-        await page.screenshot({path: 'screenshots/page.png', fullPage: true})
+        await page.screenshot({ path: 'screenshots/page.png', fullPage: true })
 
-        
+    })
+
+
+    test('retrying and non retrying assertions', async ({ page }) => {
+
+        // retrying assertions - 5 secs -
+
+
+        // visibility & state
+
+        // expect('locator').toBeVisible()
+        // expect('locator').toBeHidden()
+        // expect('locator').toBeEnabled()
+        // expect('locator').tobeDisabled()
+        // expect('locator').toBeEditable()
+        // expect('locator').toBeChecked()
+        // expect('locator').toBeFocused()
+
+        // // Text
+
+        // expect('locator').toHaveText('exact text')
+        // expect('locator').toContainText('text')
+        // expect('locator').toHaveValue('input value')
+        // expect('locator').toHaveAttribute('attribute value')
+        // expect('locator').toHaveClass('active')
+        // expect('tableLocator')toHaveCount(20)
+
+        // // page
+
+        // expect('page').toHaveTitle('title')
+        // expect('page').toHaveUrl('url')
+
+
+
+        // // non retrying assertions - matching with value
+
+
+        // const number = 6
+        // expect(number).toBe(5) // pass
+
+        // expect(number).toEqual(6)
+
+        // expect(number).toStrictEqual(6)
+
+        // expect(true).toBeTruthy()
+
+        // expect(false).toBeFalsy()
+
+        // expect(null).toBeNull()
+
+        // expect(undefined).toBeUndefined()
+
+        // expect(10).toBeGreaterThan(20)
+
+        // expect(10).toBeLessThan(20)
+
+        // expect(10).toBeGreaterThanOrEqual(20)
+
+        // expect(10).toBeLessThanOrEqual(20)
+
+        // expect(10).toContain([10, 20, 30])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    })
+
+
+
+    test('assertions', async ({ page }) => {
+
+        await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/sandbox-advanced')
+
+        const value = await page.locator('h3').nth(1).textContent()
+        console.log("value===>" + value);
+
+
+        // non retrying assertions
+        expect(value).toBe('Dialogs and Popup')
+
+        // retrying assertions
+        expect(page.locator('h3').nth(1)).toContainText('Dialogs and Popup')
+    })
+
+
+
+
+
+    test('Hard vs soft assertions', async ({ page }) => {
+
+        await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/sandbox-advanced')
+        await page.getByTestId('dynamic-group-select').selectOption('Locators')
+        await page.getByTestId('dynamic-option-select').selectOption('getByRole + name')
+
+        await expect(page.getByText('Dynamic dropdown selected: getByRole + name. playwright')).toBeVisible()
+
+
+        await page.getByTestId('bootstrap-dropdown-trigger').click();
+        await expect(page.getByTestId('bootstrap-dropdown-menu')).toBeVisible()
+        await page.getByText('Weekday Batch').click();
+        await expect(page.getByText('Bootstrap dropdown selected: Weekday Batch.')).toBeVisible()
 
     })
 
