@@ -2,9 +2,10 @@ import { test, expect } from '@playwright/test'
 
 // grouping Tests
 test.describe('Basic Element Handling and Assertions', () => {
-
+// only, skip, fail, fixme, slow
 
     test('Handle Goto, Fill, type, Click,', async ({ page }) => {
+        test.slow()
         await page.goto('https://testcms.reco-claims.ca/Login')
         // set a value into textbox
         await page.getByRole('textbox', { name: 'Username' }).fill('info+programmanager@xlgclaims.com')
@@ -12,7 +13,7 @@ test.describe('Basic Element Handling and Assertions', () => {
         // type a value
         //    await page.getByRole('textbox', { name: 'Username' }).type('info+programmanager@xlgclaims.com')
         //    await page.getByRole('textbox', { name: 'Password' }).type('Test1234!')
-        await page.getByRole('button', { name: 'Login' }).click()
+        await page.getByRole('button', { name: 'Loginn' }).click() // 90 secs
         await page.waitForTimeout(10000)
     })
 

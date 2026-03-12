@@ -1,12 +1,12 @@
-import {test, expect} from '@playwright/test'
+import { test, expect } from '@playwright/test'
 
 
 
-test('handling tables and pagination', async({page})=> {
+test('handling tables and pagination', async ({ page }) => {
 
     await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/table-pagination')
 
-    await expect(page.getByRole('heading', {name: 'Filter Controls'})).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Filter Controls' })).toBeVisible()
 
 
     // const rowCount = await page.locator('tbody tr').count()
@@ -14,14 +14,14 @@ test('handling tables and pagination', async({page})=> {
     // console.log("rowCount===>"+ rowCount);
 
     // const firstRow = await page.locator('tbody tr').first().allTextContents()
-    
+
     // console.log("firstRow==>"+ firstRow);
 
 
     // const roleColumn = await page.locator('tbody tr td:nth-child(3)').allTextContents()
-    
+
     // console.log("roleColumn==>"+ roleColumn);
-    
+
 
 })
 
@@ -29,33 +29,40 @@ test('handling tables and pagination', async({page})=> {
 
 
 
-test('extract all values in the table', async({page})=> {
+test('extract all values in the table', async ({ page }) => {
 
     test.setTimeout(180000)
 
     await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/table-pagination')
 
-    await expect(page.getByRole('heading', {name: 'Filter Controls'})).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Filter Controls' })).toBeVisible()
 
 
-    const obj: {[key: string]: string[]} = {}
+    const obj: { [key: string]: string[] } = {}
 
     await page.getByTestId('page-size-select').selectOption('100')
 
     const rowCount = await page.locator('tbody tr').count()
 
-    console.log("rowCount===>"+ rowCount);
+    console.log("rowCount===>" + rowCount);
 
     const pagination = await page.getByTestId('pagination-current').textContent() || ''
 
+    console.log("pagination==>" + pagination);
+
     const splitted = pagination.split(' ')
 
-    console.log("splitted===>"+ splitted[3]); // page  1  of  32 
+    console.log("splitted==>" + splitted);
 
-    for(let i = 0; i < Number(splitted[3]); i++) {
+    console.log("pageCount===>" + splitted[3]); // [page,  1 , of , '32'] 
 
-        for(let j = 0; j < rowCount - 1; j++) {
 
+    for(let i = 1; i < Number(splitted[3]); i++) {
+
+        for(let j = 0; j < rowCount; j++) {
+
+            console.log("j==>"+ j);
+            
             const row = await page.locator('tbody tr').nth(j).locator('td').allTextContents()
 
             const objKey = row[0]
@@ -64,14 +71,39 @@ test('extract all values in the table', async({page})=> {
         }
 
         await page.getByTestId('pagination-next').click()
+
     }
-    
+
 console.log("object==>"+ JSON.stringify(obj));
 
 
 
 
-    
-    
+
+
+
+
+
+    // for(let i = 0; i < Number(splitted[3]); i++) {
+
+    //     for(let j = 0; j < rowCount - 1; j++) {
+
+    //         const row = await page.locator('tbody tr').nth(j).locator('td').allTextContents()
+
+    //         const objKey = row[0]
+
+    //         obj[objKey] = row
+    //     }
+
+    //await page.getByTestId('pagination-next').click()
+    // }
+
+    //console.log("object==>"+ JSON.stringify(obj));
+
+
+
+
+
+
 
 })

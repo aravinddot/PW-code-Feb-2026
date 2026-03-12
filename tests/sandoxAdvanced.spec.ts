@@ -403,7 +403,9 @@ test.describe('Interactive Playwright Sandbox Advanced', () => {
 
 
 
+// negating assertions
 
+//expect().not.tobevisible()
 
 
 
@@ -447,7 +449,7 @@ test.describe('Interactive Playwright Sandbox Advanced', () => {
         await page.getByTestId('dynamic-group-select').selectOption('Locators')
         await page.getByTestId('dynamic-option-select').selectOption('getByRole + name')
 
-        await expect(page.getByText('Dynamic dropdown selected: getByRole + name. playwright')).toBeVisible()
+        await expect.soft(page.getByText('Dynamic dropdown selected: getByRole + name. playwright')).toBeVisible()
 
 
         await page.getByTestId('bootstrap-dropdown-trigger').click();
