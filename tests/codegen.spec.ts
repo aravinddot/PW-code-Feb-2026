@@ -18,3 +18,10 @@ test('test', async ({ page }) => {
 // trace viewer
 
 
+//npx playwright codegen
+
+// npx playwright show-trace
+
+// npx playwright test --debug
+
+// page.pause()
