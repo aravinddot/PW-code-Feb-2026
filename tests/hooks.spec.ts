@@ -32,7 +32,7 @@ test.describe('basic test', () => {
     })
 
     test.beforeEach(() => {             // 2
-        console.log("inner before each executed");
+        console.log("inner before each 1 executed");
     })
 
     test.afterEach(() => {          // 4
