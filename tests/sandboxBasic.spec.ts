@@ -7,8 +7,8 @@ import { test, expect } from '@playwright/test'
 test.describe('Interactive Playwright Sandbox Basic', () => {
 
 
-    test('Click, Double Click, Hover, Tooltip, Static Dropdown', async ({ page }) => {
-        await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/sandbox-basic')
+    test.only('Click, Double Click, Hover, Tooltip, Static Dropdown', async ({ page }) => {
+        await page.goto('/practice/sandbox-basic')
         await page.getByTestId('single-click-btn').click()
         await expect(page.getByText('Single click completed.')).toBeVisible()
         await expect(page.getByTestId('single-click-status')).toContainText('Single click completed.')
@@ -23,8 +23,8 @@ test.describe('Interactive Playwright Sandbox Basic', () => {
     })
 
 
-    test('Inputs, Checkbox, Radio, Dropdown', async ({ page }) => {
-        await page.goto('https://playwright-mastery-academy-app.vercel.app/practice/sandbox-basic')
+    test.only('Inputs, Checkbox, Radio, Dropdown', async ({ page }) => {
+        await page.goto('/practice/sandbox-basic')
 
         const name = 'Playwright'
         const mailId = 'info@playwrightmasteryacademy.com'
