@@ -19,37 +19,45 @@ test('read data from json', async({page})=> {
 })
 
 
-test.only('read data from CSV file', async({page})=> {
+test('read data from CSV file', async({page})=> {
+
+    type userData = {
+        username: string,
+        password: string,
+        index: number,
+        expected: string
+    }
+
 
     const file = fs.readFileSync('test-data/users.csv')
 
-    const data = parse(file, {
+    const data: userData[] = parse(file, {
         columns: true
     })
 
-    console.log(data[2]);
+    // console.log("data==>"+ JSON.stringify(data));
+    
+    console.log(data[0].username);
     
 
 
 })
 
-test('read data from excel', async({page})=> {
+test.only('read data from excel', async({page})=> {
 
 
-// const file = XLSX.readFile('test-data/Book1.xlsx')
+const file = XLSX.readFile('test-data/Book1.xlsx')
 
-// const sheet = file.Sheets['Sheet1']
+const sheet = file.Sheets['Sheet1']
 
 // const data = XLSX.utils.sheet_to_json(sheet)
 
 // console.log("data==>"+ JSON.stringify(data));
 
- const file = XLSX.readFile('test-data/Book1.xlsx');
-  const sheet = file.Sheets['Sheet1'];
+const cellValue = sheet['A3'].v
 
-  const cellValue = sheet['B2'].v;  // Access cell A1
+console.log("cellValue==>"+ cellValue);
 
-  console.log("Cell Value =>", cellValue);
 
 
 
