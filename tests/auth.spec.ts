@@ -36,9 +36,10 @@ test('How to autheticate API key', async({request})=> {
     test.skip(!openWeatherApiKey, 'Set OPENWEATHER_API_KEY to run this test.');
 
 
-    const response = await request.get('https://api.openweathermap.org/data/2.5/weather?q=delhi', {
-        headers: {
-            'x-api-key': openWeatherApiKey
+    const response = await request.get('https://api.openweathermap.org/data/2.5/weather', {
+        params: {
+            q: 'delhi',
+            appid: openWeatherApiKey
         }
     })
 
