@@ -39,7 +39,7 @@ test('How to autheticate API key', async({request})=> {
     const response = await request.get('https://api.openweathermap.org/data/2.5/weather', {
         params: {
             q: 'delhi',
-            appid: openWeatherApiKey
+            //appid: openWeatherApiKey
         }
     })
 
