@@ -47,3 +47,20 @@ test('How to autheticate API key', async({request})=> {
 
 
 })
+
+
+
+// basic auth 
+
+// https://postman-echo.com/basic-auth
+
+// postman
+// password
+
+
+// github url 
+
+// https://api.github.com/user/repos
+
+
+// https://openweathermap.org/current#name
