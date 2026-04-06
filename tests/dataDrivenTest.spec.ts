@@ -43,7 +43,7 @@ test('read data from CSV file', async({page})=> {
 
 })
 
-test.only('read data from excel', async({page})=> {
+test('read data from excel', async({page})=> {
 
 
 const file = XLSX.readFile('test-data/Book1.xlsx')
